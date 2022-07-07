@@ -44,8 +44,8 @@ Stack.prototype.peak = function () {
   return this.stack.length === 0 ? undefined : this.stack[this.length - 1]
 };
 ```
-
-### Linked List Implemention
+  
+## Linked List Implemention
 
 #### **_Linked List에서의 삽입과 삭제_**
 - 스택의 데이터 추가 및 삭제 == 시간 복잡도 O(1)을 유지해야 하므로 (상수 시간)
