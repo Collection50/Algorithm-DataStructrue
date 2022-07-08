@@ -67,7 +67,7 @@
 하지만 재귀의 호출 방식을 정확하게 이해했으며 혼자 힘으로 문제를 해결했다는 것에 큰 의의를 느끼며 기록한다  
 진짜 실무에서는 어떠한 방식으로 어떻게 사용될지 궁금하다  
 
-## Implemention
+## Implemention Code
 ```js
 class MaxBinaryHeap {
   constructor() {
@@ -105,9 +105,11 @@ class MaxBinaryHeap {
 
       if (leftIndex >= size && rightIndex >= size) return;
 
-      if (leftIndex < size && rightIndex >= size) swapIndex = array[leftIndex] > array[index] ? leftIndex : index;
-      else if (leftIndex >= size && rightIndex < size) swapIndex = array[rightIndex] > array[index] ? rightIndex : index;
-      else { 
+      if (leftIndex < size && rightIndex >= size) {
+        swapIndex = array[leftIndex] > array[index] ? leftIndex : index;
+      } else if (leftIndex >= size && rightIndex < size) {
+        swapIndex = array[rightIndex] > array[index] ? rightIndex : index;
+      } else {
         const max = Math.max(array[index], array[rightIndex], array[leftIndex]);
         if (max === array[index]) swapIndex = index;
         else if (max === array[leftIndex]) swapIndex = leftIndex;
@@ -136,40 +138,30 @@ iteration을 활용한 Refatoring
 아래 코드는 노드의 제거 기능을 수행하기엔 코드의 가독성이 목적에 명확히 들어맞는다는 느낌이 들지 않았었는데  
 내가 직접 작성한 코드보다 나은 것 같기도..?  
 
-### `remove()` Refactoring
+### `remove()` Refactoring Code
 ```js
 remove() {
-  extractMap() {
-    const max = this.values[0];
-    const end = this.values.pop();
-    if (this.values.length > 0) {
-      this.values[0] = end;
-      this.sinkDown();
-    }
-    return max;
-  }
-
   sinkDown() {
     let index = 0;
-    const length = this.values.length;
+    const size = this.values.length;
     const element = this.values[0];
 
     while (true) {
       let leftChildIdx = 2 * index + 1;
-      let righㄴtChildIdx = 2 * index + 2;
-      let leftchild;
+      let rightChildIdx = 2 * index + 2;
+      let leftChild;
       let rightChild;
       let swap = null;
 
-      if (leftChildIdx < length) {
+      if (leftChildIdx < size) {
         leftChild = this.values[leftChildIdx];
         if (leftChild > element) swap = leftChildIdx;
       }
-      if (leftChildIdx < length) {
+      if (leftChildIdx < size) {
         rightChild = this.values[rightChildIdx];
         if (
           (swap === null && rightChild > element) ||
-          (swap !== null && rightCHild > leftChild)
+          (swap !== null && rightChild > leftChild)
         ) swap = rightChildIdx;
       }
       if (swap === null) break; 
@@ -177,6 +169,14 @@ remove() {
       this.values[swap] = element;
       index = swap;
     }
+
+    const max = this.values[0];
+    const end = this.values.pop();
+    if (this.values.length > 0) {
+      this.values[0] = end;
+      this.sinkDown();
+    }
+    return max;  
   }
 }
 ```
