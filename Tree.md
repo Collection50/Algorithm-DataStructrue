@@ -24,14 +24,6 @@
 - Folders in Operating System
 - JSON
 
-### 용어
-- root: 최상위 노드
-- child: 자식 노드
-- parent: 부모 노드
-- siblings: 형제 노드
-- leaf: 자식이 없는 노드
-- edge: 노드와 노드를 연결하는 간선
-
 ## 이진 탐색 트리 (Binary Search Tree)
 - 이진 트리의 한 종류
 - **_'탐색'_** 특화 (비교가 가능한 데이터들에 한해 사용 가능)
@@ -165,12 +157,13 @@ class BinarySearchTree {
   }
 
   removeNode(node, value){
-    if(node == null) return null;
+    if(!node) return null;
 
     if(value === node.value){
-      if(node.left === null && node.right == null) return null;
-      if(node.left === null) return node.right;
-      if(node.right === null) return node.left;
+      if(!node.left && !node.right) return null;
+      if(!node.left) return node.right;
+      if(!node.right) return node.left;
+
       const minNode = this.getMinNode(node.right);
       node.value = minNode.value;
       node.right = this.removeNode(node.right, minNode.value);
