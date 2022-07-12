@@ -30,11 +30,18 @@
 - 추천 매커니즘  
 - [그래프 구조 시각화](https://musicmap.info/)
 
+## 그래프 순회(탐색)
+- DFS(깊이 우선 탐색)
+- BFS(너비 우선 탐색)
+
 ## 구현 메서드
 1. `addVertex(vertex)`: 정점 추가
 2. `addEdge(vertex1, vertex2)`: 간선 추가
 3. `removeVertex(vertex)`: 정점 삭제
 4. `removeEdge(vertex1, vertex2)`: 간선 삭제
+5. `DFSR(start)`: DFS 구현 with Recursion
+6. `DFSI(start)`: DFS 구현 with Iteration
+7. `DFSI(start)`: BFS 구현 with Iteration
 
 ## Implemention Code
 ```js
@@ -70,13 +77,70 @@ class Graph {
 
   removeEdge(vertex1, vertex2) {
     if (this.adjacencyList[vertex1]) {
-      this.adjacencyList[vertex1] = 
-        this.adjacencyList[vertex1].filter((v) => v !== vertex2);
+      this.adjacencyList[vertex1] = this.adjacencyList[vertex1].filter((v) => v !== vertex2);
     }
     if (this.adjacencyList[vertex1]) {
-      this.adjacencyList[vertex2] = 
-      this.adjacencyList[vertex2].filter((v) => v !== vertex1);
+      this.adjacencyList[vertex2] = this.adjacencyList[vertex2].filter((v) => v !== vertex1);
     }
+  }
+
+  DFSR(start) {
+    const result = [];
+    const visited = {};
+    const adjacencyList = this.adjacencyList;
+
+    (function dfs(vertex) {
+      if (!vertex) return;
+      visited[vertex] = true;
+      result.push(vertex);
+      adjacencyList[vertex].forEach((neighbor) => {
+        if (!visited[neighbor]) {
+          return dfs(neighbor);
+        }
+      });
+    }(start));
+    return result;
+  }
+
+  DFSI(start) {
+    const stack = [start];
+    const result = [];
+    const visited = {};
+    let currentVertex;
+
+    visited[start] = true;
+    while (stack.length) {
+      currentVertex = stack.pop();
+      result.push(currentVertex);
+
+      this.adjacencyList[currentVertex].forEach((neighbor) => {
+        if (!visited[neighbor]) {
+          visited[neighbor] = true;
+          stack.push(neighbor);
+        }
+      });
+    }
+    return result;
+  }
+
+  BFSI(start) {
+    const queue = [start];
+    const result = [];
+    const visited = {};
+    let currentVertex;
+
+    visited[start] = true;
+    while (queue.length) {
+      currentVertex = queue.shift();
+      result.push(currentVertex);
+      this.adjacencyList[currentVertex].forEach((neighbor) => {
+        if (!visited[neighbor]) {
+          visited[neighbor] = true;
+          queue.push(neighbor);
+        }
+      });
+    }
+    return result;
   }
 }
 ```
