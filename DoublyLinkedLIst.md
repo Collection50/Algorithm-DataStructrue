@@ -33,7 +33,7 @@
 - `remove(index)`: `index`번째 순서에 있는 노드 삭제
 - `toArray()`: 링크드 리스트의 값을 요소로 가지는 배열 반환
 
-## Implemention
+## Implementation
 
 ```js
 class Node {
